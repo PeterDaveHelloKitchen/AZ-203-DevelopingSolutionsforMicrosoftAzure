@@ -614,26 +614,26 @@ In this exercise, you configured your ASP.NET Core web application to connect to
 
 1.  Add the following lines of code to import the **AdventureWorks.Models** and **AdventureWorks.Context** namespaces from the referenced **AdventureWorks.Models** and **AdventureWorks.Context** projects:
 
-    ```csharp
+    ```cs
     using AdventureWorks.Context;
     using AdventureWorks.Models;
     ```
 
 1.  Add the following line of code to import the **Microsoft.Azure.Cosmos** namespace from the **Microsoft.Azure.Cosmos** package imported from NuGet:
 
-    ```csharp
+    ```cs
     using Microsoft.Azure.Cosmos;
     ```
 
 1.  Add the following line of code to import the **Microsoft.EntityFrameworkCore** namespace from the **Microsoft.EntityFrameworkCore.SqlServer** package imported from NuGet:
 
-    ```csharp
+    ```cs
     using Microsoft.EntityFrameworkCore;
     ```
 
 1.  Add the following lines of code to add **using** directives for built-in namespaces that will be used in this file:
 
-    ```csharp
+    ```cs
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -642,7 +642,7 @@ In this exercise, you configured your ASP.NET Core web application to connect to
 
 1.  Enter the following code to create a new **Program** class:
 
-    ```csharp
+    ```cs
     public class Program
     {
     }
@@ -650,7 +650,7 @@ In this exercise, you configured your ASP.NET Core web application to connect to
 
 1.  Within the **Program** class, enter the following line of code to create a new string constant named **sqlDBConnectionString**:
 
-    ```csharp
+    ```cs
     private const string sqlDBConnectionString = "";
     ```
 
@@ -660,7 +660,7 @@ In this exercise, you configured your ASP.NET Core web application to connect to
 
 1.  Within the **Program** class, enter the following line of code to create a new string constant named **cosmosDBConnectionString**: 
 
-    ```csharp
+    ```cs
     private const string cosmosDBConnectionString = "";
     ```
 
@@ -668,7 +668,7 @@ In this exercise, you configured your ASP.NET Core web application to connect to
 
 1.  Within the **Program** class, enter the following code to create a new asynchronous **Main** method:
 
-    ```csharp
+    ```cs
     public static async Task Main(string[] args)
     {
     }
@@ -676,7 +676,7 @@ In this exercise, you configured your ASP.NET Core web application to connect to
 
 1.  Within the **Main** method, add the following line of code to print an introductory message to the console:
 
-    ```csharp
+    ```cs
     await Console.Out.WriteLineAsync("Start Migration");
     ```
 
@@ -702,13 +702,13 @@ In this exercise, you configured your ASP.NET Core web application to connect to
 
 1.  Within the **Main** method of the **Program** class within the **Program.cs** file, add the following line of code to create a new instance of the **AdventureWorksSqlContext** class passing in the **sqlDBConnectionString** variable as the connection string value:
 
-    ```csharp
+    ```cs
     AdventureWorksSqlContext context = new AdventureWorksSqlContext(sqlDBConnectionString);
     ```
 
 1.  Within the **Main** method, add the following block of code to issue a LINQ query to get all **Models** and child **Products** from the database and store them in an in-memory **List<>** collection:
 
-    ```csharp
+    ```cs
     List<Model> items = await context.Models
         .Include(m => m.Products)
         .ToListAsync<Model>();
@@ -716,7 +716,7 @@ In this exercise, you configured your ASP.NET Core web application to connect to
 
 1.  Within the **Main** method, add the following line of code to print out the number of records imported from **Azure SQL Database**:
 
-    ```csharp
+    ```cs
     await Console.Out.WriteLineAsync($"Total Azure SQL DB Records: {items.Count}");
     ```
 
@@ -744,19 +744,19 @@ In this exercise, you configured your ASP.NET Core web application to connect to
 
 1.  Within the **Main** method of the **Program** class within the **Program.cs** file, add the following line of code to create a new instance of the **CosmosClient** class passing in the **cosmosDBConnectionString** variable as the connection string value:
 
-    ```csharp
+    ```cs
     CosmosClient client = new CosmosClient(cosmosDBConnectionString);
     ```
 
 1.  Within the **Main** method, add the following line of code to create a new **database** named **Retail** if it does not already exist in the Azure Cosmos DB account:
 
-    ```csharp
+    ```cs
     Database database = await client.CreateDatabaseIfNotExistsAsync("Retail");
     ```
 
 1.  Within the **Main** method, add the following block of code to create a new **container** named **Online** if it does not already existing in the Azure Cosmos DB account with a partition key path of **/Category** and a throughput of **1000 RUs**:
 
-    ```csharp
+    ```cs
     Container container = await database.CreateContainerIfNotExistsAsync("Online",
         partitionKeyPath: $"/{nameof(Model.Category)}",
         throughput: 1000
@@ -765,13 +765,13 @@ In this exercise, you configured your ASP.NET Core web application to connect to
 
 1.  Within the **Main** method, add the following line of code to create an **int** variable named **count**:
 
-    ```csharp
+    ```cs
     int count = 0;
     ```
 
 1.  Within the **Main** method, add the following block of code to create a **foreach** loop that iterates over the objects in the **items** collection:
 
-    ```csharp
+    ```cs
     foreach (var item in items)
     {
     }
@@ -779,19 +779,19 @@ In this exercise, you configured your ASP.NET Core web application to connect to
 
 1.  Within the **foreach** loop contained in **Main** method, add the following line of code to **upsert** the object into the Azure Cosmos DB collection and save the result in a variable of type **ItemResponse<>** named **document**:
 
-    ```csharp
+    ```cs
     ItemResponse<Model> document = await container.UpsertItemAsync<Model>(item);
     ```
 
 1.  Within the **foreach** loop contained in **Main** method, add the following line of code to print out the **activity id** of each upsert operation:
 
-    ```csharp
+    ```cs
     await Console.Out.WriteLineAsync($"Upserted document #{++count:000} [Activity Id: {document.ActivityId}]");
     ```
 
 1.  Back within the **Main** method (outside of the foreach loop), add the following line of code to print out the number of documents exported to **Azure Cosmos DB**:
 
-    ```csharp
+    ```cs
     await Console.Out.WriteLineAsync($"Total Azure Cosmos DB Documents: {count}");
     ```
 
@@ -911,20 +911,20 @@ In this exercise, you used Entity Framework and the .NET SDK for Azure Cosmos DB
 
 1.  In the code editor tab for the **AdventureWorksCosmosContext.cs** file, add the following lines of code to import the **AdventureWorks.Models** namespace from the referenced **AdventureWorks.Models** project:
 
-    ```csharp
+    ```cs
     using AdventureWorks.Models;
     ```
 
 1.  Add the following lines of code to import the **Microsoft.Azure.Cosmos** and **Microsoft.Azure.Cosmos.Linq** namespaces from the **Microsoft.Azure.Cosmos** package imported from NuGet:
 
-    ```csharp
+    ```cs
     using Microsoft.Azure.Cosmos;
     using Microsoft.Azure.Cosmos.Linq;
     ```
 
 1.  Add the following lines of code to add **using** directives for built-in namespaces that will be used in this file:
 
-    ```csharp
+    ```cs
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -933,7 +933,7 @@ In this exercise, you used Entity Framework and the .NET SDK for Azure Cosmos DB
 
 1.  Enter the following code to add a **AdventureWorks.Context** namespace block:
 
-    ```csharp
+    ```cs
     namespace AdventureWorks.Context
     {
     }
@@ -941,7 +941,7 @@ In this exercise, you used Entity Framework and the .NET SDK for Azure Cosmos DB
 
 1.  Within the **AdventureWorks.Context** namespace, enter the following code to create a new **AdventureWorksCosmosContext** class:
 
-    ```csharp
+    ```cs
     public class AdventureWorksCosmosContext
     {
     }
@@ -949,7 +949,7 @@ In this exercise, you used Entity Framework and the .NET SDK for Azure Cosmos DB
 
 1.  Update the declaration of the **AdventureWorksCosmosContext** class by adding a specification indicating that this class will implement the **IAdventureWorksProductContext** interface:
 
-    ```csharp
+    ```cs
     public class AdventureWorksCosmosContext : IAdventureWorksProductContext
     {
     }
@@ -957,13 +957,13 @@ In this exercise, you used Entity Framework and the .NET SDK for Azure Cosmos DB
 
 1.  Within the **AdventureWorksCosmosContext** class, enter the following line of code to create a new readonly **Container** variable named **_container**:
 
-    ```csharp
+    ```cs
     private readonly Container _container;
     ```
 
 1.  Within the **AdventureWorksCosmosContext** class, add a new constructor with the following signature:
 
-    ```csharp
+    ```cs
     public AdventureWorksCosmosContext(string connectionString, string database = "Retail", string container = "Online")
     {
     }
@@ -971,7 +971,7 @@ In this exercise, you used Entity Framework and the .NET SDK for Azure Cosmos DB
 
 1.  Within the constructor, add the following block of code to create a new instance of the **CosmosClient** class and then obtain both a **Database** and **Container** instance from the client:
 
-    ```csharp
+    ```cs
     _container = new CosmosClient(connectionString)
         .GetDatabase(database)
         .GetContainer(container);
@@ -979,7 +979,7 @@ In this exercise, you used Entity Framework and the .NET SDK for Azure Cosmos DB
 
 1.  Within the **AdventureWorksCosmosContext** class, add a new **FindModelAsync** method with the following signature:
 
-    ```csharp
+    ```cs
     public async Task<Model> FindModelAsync(Guid id)
     {
     }
@@ -987,7 +987,7 @@ In this exercise, you used Entity Framework and the .NET SDK for Azure Cosmos DB
 
 1.  Within the **FindModelAsync** method, add the following blocks of code to create a LINQ query, transform it into an iterator, iterate over the result set, and then return the single item in the result set:
 
-    ```csharp
+    ```cs
     var iterator = _container.GetItemLinqQueryable<Model>()
         .Where(m => m.id == id)
         .ToFeedIterator<Model>();
@@ -1004,7 +1004,7 @@ In this exercise, you used Entity Framework and the .NET SDK for Azure Cosmos DB
 
 1.  Within the **AdventureWorksCosmosContext** class, add a new **GetModelsAsync** method with the following signature:
 
-    ```csharp
+    ```cs
     public async Task<List<Model>> GetModelsAsync()
     {
     }
@@ -1012,7 +1012,7 @@ In this exercise, you used Entity Framework and the .NET SDK for Azure Cosmos DB
 
 1.  Within the **GetModelsAsync** method, add the following blocks of code to execute a sql query, get the query result iterator, iterator over the result set, and then return the union of all results:
 
-    ```csharp
+    ```cs
     string query = $@"SELECT * FROM items";
 
     var iterator = _container.GetItemQueryIterator<Model>(query);
@@ -1029,7 +1029,7 @@ In this exercise, you used Entity Framework and the .NET SDK for Azure Cosmos DB
 
 1.  Within the **AdventureWorksCosmosContext** class, add a new **FindProductAsync** method with the following signature:
 
-    ```csharp
+    ```cs
     public async Task<Product> FindProductAsync(Guid id)
     {
     }
@@ -1037,7 +1037,7 @@ In this exercise, you used Entity Framework and the .NET SDK for Azure Cosmos DB
 
 1.  Within the **FindProductAsync** method, add the following blocks of code to execute a sql query, get the query result iterator, iterates over the result set, and then return the single item in the result set:
 
-    ```csharp
+    ```cs
     string query = $@"SELECT VALUE products
                         FROM models
                         JOIN products in models.Products
@@ -1103,7 +1103,7 @@ In this exercise, you used Entity Framework and the .NET SDK for Azure Cosmos DB
 
 1.  In the **Startup** class, locate the existing **ConfigureProductService** method:
 
-    ```csharp
+    ```cs
     public void ConfigureProductService(IServiceCollection services)
     {
         services.AddScoped<IAdventureWorksProductContext, AdventureWorksSqlContext>(provider =>
@@ -1118,7 +1118,7 @@ In this exercise, you used Entity Framework and the .NET SDK for Azure Cosmos DB
 
 1.  Within the **ConfigureProductService** method, delete all existing lines of code :
 
-    ```csharp
+    ```cs
     public void ConfigureProductService(IServiceCollection services)
     {
     }
@@ -1126,7 +1126,7 @@ In this exercise, you used Entity Framework and the .NET SDK for Azure Cosmos DB
 
 1.  Within the **ConfigureProductService** method, add the following block of code to change the products provider to the **AdventureWorksCosmosContext** implementation you created earlier in this lab:
 
-    ```csharp
+    ```cs
     services.AddScoped<IAdventureWorksProductContext, AdventureWorksCosmosContext>(provider =>
         new AdventureWorksCosmosContext(
             _configuration.GetConnectionString(nameof(AdventureWorksCosmosContext))
@@ -1228,25 +1228,25 @@ In this exercise, you wrote C# code to query an Azure Cosmos DB collection using
 
 1.  In the code editor tab for the **AdventureWorksRedisContext.cs** file, add the following lines of code to import the **AdventureWorks.Models** namespace from the referenced **AdventureWorks.Models** project:
 
-    ```csharp
+    ```cs
     using AdventureWorks.Models;
     ```
 
 1.  Add the following lines of code to import the **Newtonsoft.Json** namespace from the **Newtonsoft.Json** package imported from NuGet:
 
-    ```csharp
+    ```cs
     using Newtonsoft.Json;
     ```
 
 1.  Add the following lines of code to import the **StackExchange.Redis** namespace from the **StackExchange.Redis** package imported from NuGet:
 
-    ```csharp
+    ```cs
     using StackExchange.Redis;
     ```
 
 1.  Add the following lines of code to add **using** directives for built-in namespaces that will be used in this file:
 
-    ```csharp
+    ```cs
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -1255,7 +1255,7 @@ In this exercise, you wrote C# code to query an Azure Cosmos DB collection using
 
 1.  Enter the following code to add a **AdventureWorks.Context** namespace block:
 
-    ```csharp
+    ```cs
     namespace AdventureWorks.Context
     {
     }
@@ -1263,7 +1263,7 @@ In this exercise, you wrote C# code to query an Azure Cosmos DB collection using
 
 1.  Within the **AdventureWorks.Context** namespace, enter the following code to create a new **AdventureWorksRedisContext** class:
 
-    ```csharp
+    ```cs
     public class AdventureWorksRedisContext
     {
     }
@@ -1271,7 +1271,7 @@ In this exercise, you wrote C# code to query an Azure Cosmos DB collection using
 
 1.  Update the declaration of the **AdventureWorksRedisContext** class by adding a specification indicating that this class will implement the **IAdventureWorksCheckoutContext** interface:
 
-    ```csharp
+    ```cs
     public class AdventureWorksRedisContext : IAdventureWorksCheckoutContext
     {
     }
@@ -1279,13 +1279,13 @@ In this exercise, you wrote C# code to query an Azure Cosmos DB collection using
 
 1.  Within the **AdventureWorksRedisContext** class, enter the following line of code to create a new readonly **IDatabase** variable named **_database**:
 
-    ```csharp
+    ```cs
     private readonly IDatabase _database;
     ```
 
 1.  Within the **AdventureWorksRedisContext** class, add a new constructor with the following signature:
 
-    ```csharp
+    ```cs
     public AdventureWorksRedisContext(string connectionString)
     {        
     }
@@ -1293,14 +1293,14 @@ In this exercise, you wrote C# code to query an Azure Cosmos DB collection using
 
 1.  Within the constructor, add the following block of code to create a new instance of the **ConnectionMultiplexer** class and then get the database instance:
 
-    ```csharp
+    ```cs
     ConnectionMultiplexer connection = ConnectionMultiplexer.Connect(connectionString);
     _database = connection.GetDatabase();
     ```
 
 1.  Within the **AdventureWorksRedisContext** class, add a new **AddProductToCartAsync** method with the following signature:
 
-    ```csharp
+    ```cs
     public async Task AddProductToCartAsync(string uniqueIdentifier, Product product)
     {        
     }
@@ -1308,7 +1308,7 @@ In this exercise, you wrote C# code to query an Azure Cosmos DB collection using
 
 1.  Within the **AddProductToCartAsync** method, add the following blocks of code to get the current value from a key, create a new list if one does not already exists, add the product to the list, and then store the list as the new value for the key in the database:
     
-    ```csharp
+    ```cs
     RedisValue result = await _database.StringGetAsync(uniqueIdentifier);
     List<Product> products = new List<Product>();
     if (!result.IsNullOrEmpty)
@@ -1323,7 +1323,7 @@ In this exercise, you wrote C# code to query an Azure Cosmos DB collection using
 
 1.  Within the **AdventureWorksRedisContext** class, add a new **GetProductsInCartAsync** method with the following signature:
 
-    ```csharp
+    ```cs
     public async Task<List<Product>> GetProductsInCartAsync(string uniqueIdentifier)
     {        
     }
@@ -1339,7 +1339,7 @@ In this exercise, you wrote C# code to query an Azure Cosmos DB collection using
 
 1.  Within the **AdventureWorksRedisContext** class, add a new **ClearCart** method with the following signature:
 
-    ```csharp
+    ```cs
     public async Task ClearCart(string uniqueIdentifier)
     {        
     }
@@ -1347,7 +1347,7 @@ In this exercise, you wrote C# code to query an Azure Cosmos DB collection using
 
 1.  Within the **ClearCart** method, add the following line of code to remove a key and its associated values from the database:
     
-    ```csharp
+    ```cs
     await _database.KeyDeleteAsync(uniqueIdentifier);
     ```
 

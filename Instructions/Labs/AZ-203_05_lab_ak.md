@@ -264,7 +264,7 @@ In this exercise, you created the resources that you will use for the remainder 
 
 1.  In the editor, in the **Startup** class, locate and delete the following line of code at line **43**:
 
-    ```csharp
+    ```cs
     app.UseHttpsRedirection();
     ```
 
@@ -272,7 +272,7 @@ In this exercise, you created the resources that you will use for the remainder 
 
 1.  Within the **Startup** class, add a new **static string constant** named **INSTRUMENTATION_KEY** with its value set to the **Instrumentation Key** you copied from the **Application Insights** resource you created earlier in this lab:
 
-    ```csharp
+    ```cs
     private const string INSTRUMENTATION_KEY = "{your_instrumentation_key}";
     ```
 
@@ -280,7 +280,7 @@ In this exercise, you created the resources that you will use for the remainder 
 
 1.  Locate the **ConfigureServices** method within the **Startup** class:
 
-    ```csharp
+    ```cs
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);        
@@ -289,13 +289,13 @@ In this exercise, you created the resources that you will use for the remainder 
 
 1.  Add a new line of code at the end of the **ConfigureServices** method to configure Application Insights using the provided instrumentation key:
 
-    ```csharp
+    ```cs
     services.AddApplicationInsightsTelemetry(INSTRUMENTATION_KEY);
     ```
 
 1.  Your **ConfigureServices** method should now look like this:
 
-    ```csharp
+    ```cs
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);   
@@ -464,19 +464,19 @@ In this exercise, you created an API by using ASP.NET Core and configured it to 
 
 1.  In the editor, add the following **using** directive for the **System.Net.Http** namespace:
 
-    ```csharp
+    ```cs
     using System.Net.Http;
     ```
 
 1.  In the editor, add the following **using** directive for the **System.Threading.Tasks** namespace:
 
-    ```csharp
+    ```cs
     using System.Threading.Tasks;
     ```
 
 1.  In the **SimpleConsole** namespace, locate the following class at line **7**:
 
-    ```csharp
+    ```cs
     class Program
     {
         static void Main(string[] args)
@@ -488,7 +488,7 @@ In this exercise, you created an API by using ASP.NET Core and configured it to 
 
 1.  Replace the entire **Program** class with the following implementation:
 
-    ```csharp
+    ```cs
     class Program
     {
         private const string _api = "";
@@ -508,7 +508,7 @@ In this exercise, you created an API by using ASP.NET Core and configured it to 
 
 1.  Locate the **\_api** constant at line **9**:
 
-    ```csharp
+    ```cs
     private const string _api = "";
     ```
 
@@ -518,19 +518,19 @@ In this exercise, you created an API by using ASP.NET Core and configured it to 
 
 1.  Within the **Run** method, add the following line of code to asynchronously invoke the **HttpClient.GetStringAsync** method passing in a string for the relative path of **/api/values/**:
 
-    ```csharp
+    ```cs
     string response = await _client.GetStringAsync("/api/values/");
     ```
 
 1.  Within the **Run** method, add an additional line of code to write out the response from the **GET** request to the console:
 
-    ```csharp
+    ```cs
     Console.WriteLine(response);
     ```
 
 1. Your **Program.cs** file should now have the following code:
 
-    ```csharp
+    ```cs
     using System;
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -624,13 +624,13 @@ In this exercise, you created an API by using ASP.NET Core and configured it to 
 
 1.  Locate the **\_client** constant at line **10**:
 
-    ```csharp
+    ```cs
     private static HttpClient _client = new HttpClient(){ BaseAddress = new Uri(_api) }; 
     ```
 
 1.  Update the **\_client** constant by updating the **HttpClient** constructor to use a new instance of the **PollyHandler** class:
 
-    ```csharp
+    ```cs
     private static HttpClient _client = new HttpClient(new PollyHandler()){ BaseAddress = new Uri(_api) };
     ```
 

@@ -687,7 +687,7 @@ In this exercise, you created an Azure Web App and deployed an existing web appl
 
 1. In the function editor, observe the example function script:
 
-    ```csharp
+    ```cs
     public static void Run(Stream myBlob, string name, ILogger log)
     {
         log.LogInformation($"C# Blob trigger function Processed blob\n Name:{name} \n Size: {myBlob.Length} Bytes");
@@ -698,7 +698,7 @@ In this exercise, you created an Azure Web App and deployed an existing web appl
 
 1. Within the editor, copy and paste the following placeholder function:
 
-    ```csharp
+    ```cs
     using SixLabors.ImageSharp;
     using SixLabors.ImageSharp.PixelFormats;
     using SixLabors.ImageSharp.Processing;
@@ -714,13 +714,13 @@ In this exercise, you created an Azure Web App and deployed an existing web appl
 
 1. Add the following line of code within the **Run** method to log information about the function execution:
 
-    ```csharp
+    ```cs
     log.LogInformation($"C# Blob trigger function Processed blob\n Name:{name} \n Size: {inputBlob.Length} Bytes");
     ```
 
 1. Add the following **using** statement to load the **Stream** for the input blob into the image library:
 
-    ```csharp
+    ```cs
     using (Image<Rgba32> image = Image.Load(inputBlob))
     {
     }
@@ -728,7 +728,7 @@ In this exercise, you created an Azure Web App and deployed an existing web appl
 
 1. Add the following lines of code within the **using** statement to mutate the image by resizing the image and applying a grayscale filter:
 
-    ```csharp
+    ```cs
     image.Mutate(i => 	
         i.Resize(new ResizeOptions { Size = new Size(250, 250), Mode = ResizeMode.Max }).Grayscale()
     );
@@ -736,13 +736,13 @@ In this exercise, you created an Azure Web App and deployed an existing web appl
 
 1. Add the following line of code to save the new image to the **Stream** for the output blob:
 
-    ```csharp
+    ```cs
     image.Save(outputBlob, new JpegEncoder());
     ```
 
 1. Your **Run** method should now resemble this:
 
-    ```csharp
+    ```cs
     using SixLabors.ImageSharp;
     using SixLabors.ImageSharp.PixelFormats;
     using SixLabors.ImageSharp.Processing;

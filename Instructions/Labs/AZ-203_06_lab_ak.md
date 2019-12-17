@@ -914,7 +914,7 @@ In this exercise, you built a proxy tier between your Azure Search account and a
 
 1.  At the bottom of the portal, in the **Cloud Shell** command prompt, enter the following partial **CURL** command to issue a **HTTP POST** request to the Logic Apps instance and then press **Enter**:
 
-    ```sh
+    ```bash
     curl \
     --header "Content-Type: application/json" \
     --data '{"id":"6","manufacturer":"VEHTOP","price":750,"quantity":6,"name":"car roof rack"}' \
@@ -984,13 +984,13 @@ In this exercise, you created a logic app that takes a HTTP request and then per
 
 1.  At the bottom of the portal, in the **Cloud Shell** command prompt, type the following command and press Enter to list all resource groups in the subscription:
 
-    ```sh
+    ```bash
     az group list
     ```
 
 1.  Type the following command and press Enter to view a list of possible commands to delete a resource group:
 
-    ```sh
+    ```bash
     az group delete --help
     ```
 
@@ -998,7 +998,7 @@ In this exercise, you created a logic app that takes a HTTP request and then per
 
 1.  Type the following command and press Enter to delete the **MultiTierService** resource group:
 
-    ```sh
+    ```bash
     az group delete --name MultiTierService --no-wait --yes
     ```
     

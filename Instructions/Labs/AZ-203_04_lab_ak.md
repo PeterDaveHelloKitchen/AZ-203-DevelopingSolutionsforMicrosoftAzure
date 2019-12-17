@@ -394,7 +394,7 @@ In this exercise, you created a server-assigned managed service identity for you
 
 1.  In the function editor, observe the example function script:
 
-    ```csharp
+    ```cs
     #r "Newtonsoft.Json"
 
     using System.Net;
@@ -425,7 +425,7 @@ In this exercise, you created a server-assigned managed service identity for you
 
 1.  Within the function editor, copy and paste the following placeholder function:
 
-    ```csharp
+    ```cs
     using System.Net;
     using Microsoft.AspNetCore.Mvc;
 
@@ -447,7 +447,7 @@ In this exercise, you created a server-assigned managed service identity for you
 
 1.  The **Run** method should now look like this:
 
-    ```csharp
+    ```cs
     using System.Net;
     using Microsoft.AspNetCore.Mvc;
 
@@ -459,19 +459,19 @@ In this exercise, you created a server-assigned managed service identity for you
 
 1.  Add the following line of code to get the value of the **StorageConnectionString** application setting by using the **Environment.GetEnvironmentVariable** method:
 
-    ```csharp
+    ```cs
     string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
     ```
 
 1.  Add the following line of code to return the value of the **connectionString** variable by using the **OkObjectResult** class constructor:
    
-    ```csharp
+    ```cs
     return new OkObjectResult(connectionString);
     ```
     
 1.  The **Run** method should now look like this:
 
-    ```csharp
+    ```cs
     using System.Net;
     using Microsoft.AspNetCore.Mvc;
 
@@ -605,25 +605,25 @@ In this exercise, you securely used a service identity to read the value of a se
 
 1.  At the top of the code file, add the following line of code to create a **using** directive for the **Azure.Storage** namespace:
 
-    ```csharp
+    ```cs
     using Azure.Storage;
     ```
 
 1.  At the top of the code file, add the following line of code to create a **using** directive for the **Azure.Storage.Blobs** namespace:
 
-    ```csharp
+    ```cs
     using Azure.Storage.Blobs;
     ```
 
 1.  Add the following line of code to create a **using** directive for the **Azure.Storage.Blobs.Models** namespace:
 
-    ```csharp
+    ```cs
     using Azure.Storage.Blobs.Models;
     ```
 
 1.  The **Run** method should now look like this:
 
-    ```csharp
+    ```cs
     using System.Net;
     using Microsoft.AspNetCore.Mvc;
     using Azure.Storage;
@@ -640,31 +640,31 @@ In this exercise, you securely used a service identity to read the value of a se
 
 1.  Add the following line of code within the **Run** method to get the value of the **StorageConnectionString** application setting by using the **Environment.GetEnvironmentVariable** method:
 
-    ```csharp
+    ```cs
     string connectionString = Environment.GetEnvironmentVariable("StorageConnectionString");
     ```
 
 1.  Add the following line of code to create a new instance of the **BlobServiceClient** class by passing in your *connectionString* variable to the constructor:
 
-    ```csharp
+    ```cs
     BlobServiceClient serviceClient = new BlobServiceClient(connectionString);
     ```
 
 1.  Add the following line of code to use the **BlobServiceClient.GetBlobContainerClient** method, while passing in the **drop** container name to create a new instance of the **BlobContainerClient** class that references the container that you created earlier in this lab:
 
-    ```csharp
+    ```cs
     BlobContainerClient containerClient = serviceClient.GetBlobContainerClient("drop");
     ```
 
 1.  Add the following line of code to use the **BlobContainerClient.GetBlobClient** method, while passing in the **records.json** blob name to create a new instance of the **BlobClient** class that references the blob that you uploaded earlier in this lab:
 
-    ```csharp
+    ```cs
     BlobClient blobClient = containerClient.GetBlobClient("records.json");
     ```
     
 1.  The **Run** method should now look like this:
 
-    ```csharp
+    ```cs
     using System.Net;
     using Microsoft.AspNetCore.Mvc;
     using Azure.Storage;
@@ -684,19 +684,19 @@ In this exercise, you securely used a service identity to read the value of a se
 
 1.  Add the following line of code to use the **BlobClient.DownloadAsync** method to download the contents of the referenced blob asynchronously and store the result in a variable named *response*:
 
-    ```csharp
+    ```cs
     var response = await blobClient.DownloadAsync();
     ```
 
 1.  Add the following line of code to return the various content stored in the *content* variable by using the **FileStreamResult** class constructor:
 
-    ```csharp
+    ```cs
     return new FileStreamResult(response?.Value?.Content, response?.Value?.ContentType);
     ```
 
 1.  The **Run** method should now look like this:
 
-    ```csharp
+    ```cs
     using System.Net;
     using Microsoft.AspNetCore.Mvc;
     using Azure.Storage;
